@@ -208,7 +208,7 @@ html {
 
 .input-icon input {
   padding-left: 30px; /* Adjust as per icon size */
-  background-color: var(--body-color);
+  background-color: #f0f0f0;
 }
 
 .input-icon .edit-icon{
@@ -221,4 +221,11 @@ html {
   background-color: var(--body-color);
   border-radius: 10px;
   border: 1px solid gray;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background-color: var(--body-color);
+  padding: 10px 0;
 }

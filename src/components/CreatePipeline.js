@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from 'react';
 import Select from "react-select";
 import Switch from "react-switch";
@@ -229,9 +226,9 @@ const CreatePipeline = () => {
 
                 </div>
                 <hr />
-                <div className='stages col-12' style={{ display: 'flex', gap: '10px', overflowX:'auto' }}>
+                <div className='stages col-12' style={{ display: 'flex', gap: '10px', overflowX:'auto' , marginBottom:'10%'}}>
                     {stages.map((stage, index) => (
-                        <div key={index} className='stage-board col-3' style={{ height: 'auto', marginTop: '20px', borderRadius: '10px', boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}>
+                        <div key={index} className='stage-board col-3' style={{ height: 'auto', marginTop: '20px', borderRadius: '10px', boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)", backgroundColor:"#f0f0f0" }}>
                             {/* Render stage content */}
                             <div style={{ margin: '10px' }}>
                                 <div className='board-header' style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -284,7 +281,12 @@ const CreatePipeline = () => {
 
                 </div>
             </div>
-
+            <footer className="footer col-10">
+              <div className='footer-btns col-6' style={{display:'flex', gap:'10px', marginLeft:'10px'}}>
+                 <button type='submit' style={{ padding:'10px', borderRadius:'10px', cursor:'pointer', background:'blue', color:'#fff', border:'none', fontSize:'15px'}} className='col-2'>Save</button>
+                 <button type='reset' style={{ padding:'10px', borderRadius:'10px', cursor:'pointer', background:'#fff', color:'blue', border:'1px solid blue', fontSize:'15px'}} className='col-2'>Cancle</button>
+              </div>
+            </footer>
         </>
     );
 }
