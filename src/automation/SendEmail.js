@@ -6,7 +6,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdAlternateEmail } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdArrowRoundBack } from "react-icons/io";
-const ApplyFolder = () => {
+const SendEmail = () => {
   const [showAutoMovesDropdown, setShowAutoMovesDropdown] = useState(false);
   const automoveActionsForm = [
     'Apply folder template',
@@ -180,4 +180,4 @@ const ApplyFolder = () => {
   )
 }
 
-export default ApplyFolder
+export default SendEmail
