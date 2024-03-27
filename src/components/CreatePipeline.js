@@ -7,13 +7,23 @@ import { SlQuestion } from "react-icons/sl";
 import DatePicker from 'react-datepicker'; // Import date picker
 import 'react-datepicker/dist/react-datepicker.css'; // Import date picker stylesheet
 import { RxDragHandleDots2 } from "react-icons/rx";
+import { RxCross2 } from "react-icons/rx";
+import SendEmail from '../automation/SendEmail';
+import ApplyFolder from '../automation/ApplyFolder';
+import AccountTags from '../automation/AccountTags';
 
 const CreatePipeline = () => {
+    const [showAutoMoveDropdown, setShowAutoMoveDropdown] = useState(false);
+    const automoveActions = ['Apply folder template', 'Update account tags', 'Send invoice', 'Create organozer', 'Create task', 'Send proposal/EL', 'Send email', 'Send message', 'Update account access', 'Update job assignees', 'Add wiki page']; // Add your automove actions here
+
     const [singleSwitch, setSingleSwitch] = useState(false);
     const [startDate, setStartDate] = useState(null);
     const [dueDate, setDueDate] = useState(null);
     const [autoMoveJob, setAutoMovejob] = useState(false)
     const [stages, setStages] = useState([]);
+    const [activeAction, setActiveAction] = useState(null);
+    const [isAutoFormOpen, setAutoFormOpen] = useState(false);
+
     const handleStartDateChange = (date) => {
         setStartDate(date);
     };
@@ -55,6 +65,7 @@ const CreatePipeline = () => {
         const lastStage = stages[stages.length - 1];
         const newStage = { ...lastStage };
         setStages([...stages, newStage]);
+
     };
     useState(() => {
         handleAddStage();
@@ -64,8 +75,105 @@ const CreatePipeline = () => {
         updatedStages.splice(index, 1);
         setStages(updatedStages);
     };
+
+
+
+    const handleFormClose = () => {
+        setAutoFormOpen(false);
+    };
+
+    const toggleForm = () => {
+        setAutoFormOpen(!isAutoFormOpen);
+        setShowAutoMoveDropdown(false);
+    };
+
+
+    const handleActionSelect = (action) => {
+        setActiveAction(action);
+        toggleForm();
+    };
+    const renderFormContent = () => {
+        switch (activeAction) {
+            case 'Apply folder template':
+                return (
+                    <div>
+                        <ApplyFolder />
+
+                    </div>
+                );
+            case 'Update account tags':
+                return (
+                    <div>
+                        <AccountTags />
+
+                    </div>
+                );
+
+            case 'Send invoice':
+                return (
+                    <div>
+
+                    </div>
+                );
+            case 'Create organozer':
+                return (
+                    <div>
+
+                    </div>
+                );
+            case 'Create task':
+                return (
+                    <div>
+
+                    </div>
+                );
+            case 'Send proposal/EL':
+                return (
+                    <div>
+
+                    </div>
+                );
+            case 'Send email':
+                return (
+                    <div>
+                        <SendEmail />
+
+                    </div>
+                );
+            case 'Send message':
+                return (
+                    <div>
+                        {/* Message form content goes here */}
+                        <h3>Message Form</h3>
+                    </div>
+                );
+            case 'Update account access':
+                return (
+                    <div>
+
+                    </div>
+                );
+            case 'Update job assignees':
+                return (
+                    <div>
+
+                    </div>
+                );
+            case 'Add wiki page':
+                return (
+                    <div>
+
+                    </div>
+                );
+
+            // Add cases for other actions as needed
+            default:
+                return null;
+        }
+    };
     return (
         <>
+
             <div className='create-pipeline-container col-10'>
                 <h1 className='pipeline-heading'>Pipelines</h1>
             </div>
@@ -154,6 +262,7 @@ const CreatePipeline = () => {
                                 />
                                 <span className="switch-label" style={{ cursor: "pointer" }}>Enable recurrence</span>
                             </div>
+
                         </div>
                         {/* Conditional rendering for additional options */}
                         {singleSwitch && (
@@ -216,19 +325,19 @@ const CreatePipeline = () => {
             <div className='create-stages col-10' style={{ margin: '20px 0 10px 10px', }}>
                 <div className='stages-header' style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <h3>Stages</h3>
-                    
-                    <button className=' col-2' onClick={handleAddStage} style={{border:'none',backgroundColor:'#e4e9f7' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'blue',  fontSize: '15px', cursor: 'pointer', }}>
-                                <LuPlusCircle />
-                                <span>Add stages</span>
-                            </div>
-                        </button>
+
+                    <button className=' col-2' onClick={handleAddStage} style={{ border: 'none', backgroundColor: '#e4e9f7' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'blue', fontSize: '15px', cursor: 'pointer', }}>
+                            <LuPlusCircle />
+                            <span>Add stages</span>
+                        </div>
+                    </button>
 
                 </div>
                 <hr />
-                <div className='stages col-12' style={{ display: 'flex', gap: '10px', overflowX:'auto' , marginBottom:'10%'}}>
+                <div className='stages col-12' style={{ display: 'flex', gap: '10px', overflowX: 'auto', marginBottom: '10%' }}>
                     {stages.map((stage, index) => (
-                        <div key={index} className='stage-board col-3' style={{ height: 'auto', marginTop: '20px', borderRadius: '10px', boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)", backgroundColor:"#f0f0f0" }}>
+                        <div key={index} className='stage-board col-3' style={{ height: 'auto', marginTop: '20px', borderRadius: '10px', boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)", backgroundColor: "#f0f0f0" }}>
                             {/* Render stage content */}
                             <div style={{ margin: '10px' }}>
                                 <div className='board-header' style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -242,12 +351,33 @@ const CreatePipeline = () => {
                                 <hr />
                                 <div className='stage-body'>
                                     <h3 style={{ fontSize: '15px', margin: '5px 0 5px 0' }}>Stage conditions</h3>
-                                    <p style={{ fontSize: '14px' }}>First stage can't have conditions</p>
+                                    {index === 0 ? (
+                                        <p style={{ fontSize: '14px' }}>First stage can't have conditions</p>
+                                    ) : index === stages.length - 1 ? (
+                                        <p style={{ fontSize: '14px' }}>Last stage can't have conditions</p>
+                                    ) : (
+                                        <p style={{ fontSize: '14px' }}>Job enters this stage if conditions are met</p>
+                                    )}
+                                    {index > 0 && index !== stages.length - 1 && (
+                                        <div style={{ marginTop: '10px' }}>
+                                            <li style={{ listStyle: 'none', cursor: 'pointer', color: 'blue', fontWeight: 'bold' }}>add conditions</li>
+                                        </div>
+                                    )}
                                     <br />
                                     <h3 style={{ fontSize: '15px', margin: '5px 0 5px 0' }}>Automations</h3>
                                     <p style={{ fontSize: '14px' }}>Triggered when job enters stage</p>
                                     <br />
-                                    <li style={{ listStyle: 'none', cursor: 'pointer', color: 'blue', fontWeight: 'bold' }}>add automove</li>
+                                    <li style={{ listStyle: 'none', cursor: 'pointer', color: 'blue', fontWeight: 'bold' }} onClick={() => setShowAutoMoveDropdown(!showAutoMoveDropdown)}>added automation</li>
+                                    {showAutoMoveDropdown && (
+                                        <div className='automovedrop-down'>
+                                            <ul>
+                                                {automoveActions.map((action, index) => (
+                                                    <li key={index} onClick={() => handleActionSelect(action)}>{action}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+
                                     <br />
                                     <h3 style={{ fontSize: '15px', margin: '5px 0 5px 0' }}>Automove</h3>
                                     <p style={{ fontSize: '14px' }}>Move jobs automatically when linked actions are completed</p>
@@ -282,11 +412,33 @@ const CreatePipeline = () => {
                 </div>
             </div>
             <footer className="footer col-10">
-              <div className='footer-btns col-6' style={{display:'flex', gap:'10px', marginLeft:'10px'}}>
-                 <button type='submit' style={{ padding:'10px', borderRadius:'10px', cursor:'pointer', background:'blue', color:'#fff', border:'none', fontSize:'15px'}} className='col-2'>Save</button>
-                 <button type='reset' style={{ padding:'10px', borderRadius:'10px', cursor:'pointer', background:'#fff', color:'blue', border:'1px solid blue', fontSize:'15px'}} className='col-2'>Cancle</button>
-              </div>
+                <div className='footer-btns col-6' style={{ display: 'flex', gap: '10px', marginLeft: '10px', }}>
+                    <button type='submit' style={{ padding: '10px', borderRadius: '10px', cursor: 'pointer', background: 'blue', color: '#fff', border: 'none', fontSize: '15px' }} className='col-2'>Save</button>
+                    <button type='reset' style={{ padding: '10px', borderRadius: '10px', cursor: 'pointer', background: '#fff', color: 'blue', border: '1px solid blue', fontSize: '15px' }} className='col-2'>Cancle</button>
+                </div>
             </footer>
+
+            {isAutoFormOpen && activeAction && (
+                <div className={`autoform-container ${isAutoFormOpen ? "autoform-open" : ""}`}>
+                    <div className='auto_header'>
+                        <div className="auto_header_title">
+                            <div className="auto_title"><h3>Automations</h3></div>
+                            <button type="button" onClick={handleFormClose}>
+                                <RxCross2 />
+                            </button>
+                        </div>
+                    </div>
+                    <div className="auto_content">
+                        {renderFormContent()
+                        }
+                        <div className='submit-buttons col-10' style={{ display: 'flex', gap: '10px', margin: '0 0 0 20px', }}>
+                            <button type='submit' style={{ padding: '10px', borderRadius: '10px', cursor: 'pointer', background: 'blue', color: '#fff', border: 'none', fontSize: '15px' }} className='col-2'>Save</button>
+                            <button onClick={handleFormClose} style={{ padding: '10px', borderRadius: '10px', cursor: 'pointer', background: '#fff', color: 'blue', border: '1px solid blue', fontSize: '15px' }} className='col-2'>Cancle</button>
+
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
